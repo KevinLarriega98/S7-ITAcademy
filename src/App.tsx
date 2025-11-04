@@ -1,35 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route } from 'react-router-dom';
+import Navbar from './features/navigation/Navbar';
+import HomePage from './features/home/HomePage';
+import LoginPage from './features/auth/LoginPage';
+import ProfilePage from './features/profile/ProfilePage';
+import FavouritesPage from './features/favourites/FavouritesPage';
+import NotFoundPage from './features/not-found/NotFoundPage';
+import ProtectedRoute from './features/auth/ProtectedRoute';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/movies" element={<div style={{ padding: 16 }}>Movies (luego)</div>} />
+        <Route path="/tvshows" element={<div style={{ padding: 16 }}>TV Shows (luego)</div>} />
+        <Route path="/search" element={<div style={{ padding: 16 }}>Search (luego)</div>} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/favourites"
+          element={
+            <ProtectedRoute>
+              <FavouritesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
     </>
-  )
+  );
 }
-
-export default App
